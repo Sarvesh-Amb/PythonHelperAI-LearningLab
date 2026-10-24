@@ -1,0 +1,10 @@
+{
+  "id": 7,
+  "title": "Dictionaries and Sets",
+  "overview": "Dictionaries and sets are useful when you need to store grouped data and quickly check membership.\n\nLearning goals:\n- dictionaries\n- keys and values\n- sets\n- membership tests\n\nWhy it matters:\nMany real programs need to count values, store mappings, and check whether something exists quickly.\n\nExample:\nstudent = {\"name\": \"Aarav\", \"marks\": 90}\nprint(student[\"name\"])\nitems = {\"apple\", \"banana\"}\nprint(\"apple\" in items)\n\nThink about this:\nWhat is the difference between a list and a dictionary?",
+  "exercises": [
+    "Create a dictionary with a student name and marks.",
+    "Count how many times each word appears in a sentence.",
+    "Use a set to remove duplicates from a list."
+  ]
+}
