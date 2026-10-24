@@ -47,7 +47,10 @@ def save_progress(progress_data, path=None):
 def mark_chapter_complete(chapter_id, progress_data=None):
     if progress_data is None:
         progress_data = load_progress()
-    chapter_id = int(chapter_id)
+    try:
+        chapter_id = int(chapter_id)
+    except (TypeError, ValueError):
+        return progress_data
     completed = set(progress_data.get("completed_chapters", []))
     completed.add(chapter_id)
     progress_data["completed_chapters"] = sorted(completed)
@@ -58,7 +61,10 @@ def mark_chapter_complete(chapter_id, progress_data=None):
 def mark_checkpoint_passed(checkpoint_id, progress_data=None):
     if progress_data is None:
         progress_data = load_progress()
-    checkpoint_id = int(checkpoint_id)
+    try:
+        checkpoint_id = int(checkpoint_id)
+    except (TypeError, ValueError):
+        return progress_data
     passed = set(progress_data.get("passed_checkpoints", []))
     passed.add(checkpoint_id)
     progress_data["passed_checkpoints"] = sorted(passed)
@@ -70,8 +76,8 @@ def get_progress_summary(progress_data):
     completed = progress_data.get("completed_chapters", [])
     passed = progress_data.get("passed_checkpoints", [])
     return {
-        "completed_chapters": sorted(set(int(item) for item in completed)),
-        "passed_checkpoints": sorted(set(int(item) for item in passed)),
+        "completed_chapters": sorted(set(int(item) for item in completed if str(item).strip())),
+        "passed_checkpoints": sorted(set(int(item) for item in passed if str(item).strip())),
     }
 
 
@@ -85,16 +91,25 @@ def load_checkpoints():
         try:
             with checkpoint_file.open("r", encoding="utf-8") as f:
                 checkpoint = json.load(f)
-            checkpoints.append(checkpoint)
-        except json.JSONDecodeError:
+            if isinstance(checkpoint, dict):
+                checkpoints.append(checkpoint)
+        except (json.JSONDecodeError, OSError):
             continue
     return checkpoints
 
 
 def get_checkpoint_for_chapter(chapter_id):
+    try:
+        target_id = int(chapter_id)
+    except (TypeError, ValueError):
+        return None
+
     for checkpoint in load_checkpoints():
-        if int(checkpoint.get("chapter_id")) == int(chapter_id):
-            return checkpoint
+        try:
+            if int(checkpoint.get("chapter_id")) == target_id:
+                return checkpoint
+        except (TypeError, ValueError):
+            continue
     return None
 
 
