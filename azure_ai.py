@@ -1,20 +1,43 @@
-import shutil
-import subprocess
+import os
+
+from openai import AzureOpenAI
 
 
-def call_local_ai(prompt: str, model: str = "gemma3:1b") -> str:
-    if shutil.which("ollama") is None:
-        raise RuntimeError("Ollama is not installed. Install Ollama to use local mode.")
+def call_azure_ai(prompt: str, model: str = "gemma3:1b") -> str:
+    """Call an Azure-hosted Gemma deployment using the Azure OpenAI-compatible API."""
+    api_key = os.getenv("AZURE_OPENAI_API_KEY")
+    endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+    deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT") or model.replace(":", "-")
+    api_version = os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-01")
 
-    result = subprocess.run(
-        ["ollama", "run", model, prompt],
-        capture_output=True,
-        text=True,
-        check=False,
+    if not api_key or not endpoint:
+        raise RuntimeError(
+            "Azure configuration is incomplete. Set AZURE_OPENAI_API_KEY and AZURE_OPENAI_ENDPOINT."
+        )
+
+    client = AzureOpenAI(
+        api_key=api_key,
+        azure_endpoint=endpoint,
+        api_version=api_version,
     )
 
-    if result.returncode != 0:
-        error_text = (result.stderr or result.stdout or "Unknown Ollama error").strip()
-        raise RuntimeError(f"Local model error: {error_text}")
+    response = client.chat.completions.create(
+        model=deployment,
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.2,
+        max_tokens=500,
+    )
 
-    return result.stdout.strip() or "No response from local model."
+    try:
+        content = response.choices[0].message.content
+    except Exception:
+        content = str(response)
+
+    if not content:
+        raise RuntimeError("Azure Gemma returned an empty response.")
+
+    return str(content).strip()
+
+
+def call_azure_gemma(prompt: str, model: str = "gemma3:1b") -> str:
+    return call_azure_ai(prompt, model=model)
