@@ -1,0 +1,10 @@
+{
+  "id": 9,
+  "title": "Introduction to Data Structures and Algorithms",
+  "overview": "This chapter introduces the core ideas behind DSA: how data is stored, how algorithms process it, and why efficiency matters.\n\nLearning goals:\n- arrays\n- lists as arrays\n- time complexity basics\n- searching and sorting intuition\n- algorithmic thinking\n\nWhy it matters:\nThe same problem can be solved in different ways, and some solutions are faster than others.\n\nExample:\nnums = [5, 2, 8, 1]\nprint(sorted(nums))\n\nThink about this:\nWhy do we care about the time it takes a program to run?",
+  "exercises": [
+    "Find the maximum number in a list.",
+    "Sort a list of numbers in ascending order.",
+    "Use a loop to search for a target value in a list."
+  ]
+}
