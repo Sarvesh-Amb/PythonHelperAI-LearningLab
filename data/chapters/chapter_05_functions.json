@@ -1,0 +1,10 @@
+{
+  "id": 5,
+  "title": "Functions",
+  "overview": "Functions let you group code into reusable blocks. This makes programs easier to read and shorter to maintain.\n\nLearning goals:\n- def\n- return\n- parameters\n- calling functions\n\nWhy it matters:\nReal programs are built from small tasks that are reused many times.\n\nExample:\ndef greet(name):\n    return f\"Hello {name}\"\n\nprint(greet(\"Aarav\"))\n\nThink about this:\nWhy is it useful to divide code into functions?",
+  "exercises": [
+    "Write a function that prints your name.",
+    "Write a function that adds two numbers and returns the result.",
+    "Write a function that checks if a number is even."
+  ]
+}
