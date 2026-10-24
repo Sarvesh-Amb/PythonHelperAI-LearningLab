@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PythonHelperAI Learning Lab</title>
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel: #121a2f;
+        --panel-2: #182544;
+        --text: #eaf2ff;
+        --muted: #afbdd8;
+        --primary: #6ee7b7;
+        --secondary: #7dd3fc;
+        --accent: #fbbf24;
+        --border: rgba(255,255,255,0.09);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        background: linear-gradient(180deg, #0a1020 0%, #0d1730 100%);
+        color: var(--text);
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.3fr 0.7fr;
+        gap: 24px;
+        padding: 56px 0 32px;
+        align-items: center;
+      }
+
+      .badge {
+        display: inline-block;
+        background: rgba(110, 231, 183, 0.13);
+        border: 1px solid rgba(110, 231, 183, 0.3);
+        color: var(--primary);
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      h1 {
+        font-size: clamp(2.4rem, 5vw, 4rem);
+        line-height: 1.05;
+        margin: 18px 0 16px;
+      }
+
+      .subtitle {
+        font-size: 1.08rem;
+        line-height: 1.7;
+        color: var(--muted);
+        max-width: 60ch;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-top: 24px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        background: var(--primary);
+        color: #052713;
+        padding: 12px 18px;
+        border-radius: 10px;
+        font-weight: 800;
+        border: none;
+      }
+
+      .button.secondary {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+
+      .card {
+        background: rgba(18, 26, 47, 0.85);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+      }
+
+      .demo-box {
+        padding: 20px;
+      }
+
+      .demo-box h3 {
+        margin-top: 0;
+        margin-bottom: 14px;
+      }
+
+      .prompt {
+        background: #0d1427;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px;
+        color: var(--muted);
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 0.92rem;
+        line-height: 1.6;
+        margin-bottom: 12px;
+      }
+
+      .output {
+        background: rgba(110, 231, 183, 0.08);
+        border: 1px solid rgba(110, 231, 183, 0.25);
+        border-radius: 12px;
+        padding: 14px;
+        color: #dffef1;
+        line-height: 1.6;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 18px;
+      }
+
+      .feature {
+        padding: 20px;
+      }
+
+      .feature h3 {
+        margin: 10px 0 8px;
+      }
+
+      .feature p {
+        color: var(--muted);
+        line-height: 1.7;
+        margin: 0;
+      }
+
+      .section {
+        padding-top: 32px;
+      }
+
+      .section-title {
+        margin: 0 0 18px;
+        font-size: clamp(1.6rem, 3vw, 2.2rem);
+      }
+
+      pre {
+        background: #0d1427;
+        color: #dfeafe;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 18px;
+        overflow-x: auto;
+        line-height: 1.6;
+      }
+
+      .status-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 12px;
+      }
+
+      .status-list li {
+        background: rgba(125, 211, 252, 0.08);
+        border: 1px solid rgba(125, 211, 252, 0.2);
+        border-radius: 12px;
+        padding: 12px 14px;
+        color: var(--muted);
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 18px;
+      }
+
+      .footer {
+        padding: 36px 0 54px;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      @media (max-width: 820px) {
+        .hero, .two-col, .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="hero">
+        <div>
+          <span class="badge">Local Gemma Tutor</span>
+          <h1>PythonHelperAI Learning Lab</h1>
+          <p class="subtitle">
+            A beginner-friendly Python tutor that guides students with tiny hints, encouragement,
+            and structured chapter-based learning. The demo here showcases the local Gemma workflow
+            used to power the learning assistant.
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="#demo">See demo</a>
+            <a class="button secondary" href="https://github.com/Sarvesh-Amb/PythonHelperAI-LearningLab" target="_blank" rel="noreferrer">View repo</a>
+          </div>
+        </div>
+
+        <div class="card demo-box" id="demo">
+          <h3>Sample tutor response</h3>
+          <div class="prompt">Exercise: Write a function that adds two numbers.</div>
+          <div class="output">
+            “Try thinking about what a function needs: a name, some input, and a result. Ask yourself:
+            what should happen to the numbers before you return them? Start with a tiny version and test it.”
+          </div>
+        </div>
+      </header>
+
+      <section class="section">
+        <h2 class="section-title">What this project does</h2>
+        <div class="grid">
+          <div class="card feature">
+            <div class="badge" style="background: rgba(125, 211, 252, 0.1); border-color: rgba(125,211,252,0.25); color: var(--secondary);">1</div>
+            <h3>Learn by chapter</h3>
+            <p>Students progress through beginner Python and DSA concepts with guided exercises instead of full solution dumps.</p>
+          </div>
+
+          <div class="card feature">
+            <div class="badge" style="background: rgba(251, 191, 36, 0.1); border-color: rgba(251,191,36,0.25); color: var(--accent);">2</div>
+            <h3>Local Gemma support</h3>
+            <p>The local workflow uses Ollama and Gemma models so the assistant can run from a personal machine without needing cloud APIs.</p>
+          </div>
+
+          <div class="card feature">
+            <div class="badge" style="background: rgba(110, 231, 183, 0.1); border-color: rgba(110,231,183,0.25); color: var(--primary);">3</div>
+            <h3>Friendly hints</h3>
+            <p>The tutor stays encouraging and beginner-focused, asking one guiding question at a time instead of giving away answers.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section two-col">
+        <div>
+          <h2 class="section-title">How the local flow works</h2>
+          <pre>ollama pull gemma3:1b
+python app.py
+# choose provider: local
+# choose model: gemma3:1b
+# click "Get hint"</pre>
+        </div>
+
+        <div class="card feature">
+          <h3>Project status</h3>
+          <ul class="status-list">
+            <li>✓ Curriculum and chapter structure are defined</li>
+            <li>✓ Model selection logic is available</li>
+            <li>✓ Local Ollama flow is enabled for Gemma</li>
+            <li>✓ Tutor prompt is beginner-friendly</li>
+            <li>✓ GitHub Pages demo page is ready</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Example prompt</h2>
+        <pre>Exercise: "Write a function that returns the sum of two numbers."
+
+Student code:
+print("hello")
+
+Tutor prompt:
+- ask one small guiding question
+- give a tiny hint
+- never reveal the full answer immediately</pre>
+      </section>
+
+      <footer class="footer">
+        PythonHelperAI Learning Lab · built for beginner learning with local Gemma-powered tutoring.
+      </footer>
+    </div>
+  </body>
+</html>
