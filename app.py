@@ -1,21 +1,30 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 
-from curriculum import load_chapters, get_chapter_by_id
-from model_manager import get_provider_status, choose_model
+from checkpoint_manager import (
+    get_checkpoint_for_chapter,
+    load_progress,
+    mark_chapter_complete,
+    mark_checkpoint_passed,
+    validate_checkpoint,
+)
+from curriculum import get_chapter_by_id, load_chapters
+from model_manager import choose_model, get_provider_status
 
 
 class TutorApp(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("PythonHelperAI Learning Lab")
-        self.geometry("1100x720")
+        self.geometry("1100x760")
         self.minsize(900, 620)
 
         self.chapters = load_chapters()
         self.current_chapter_id = 1 if self.chapters else None
+        self.progress = load_progress()
         self.provider_var = tk.StringVar(value="auto")
         self.model_var = tk.StringVar(value="gemma3:1b")
+        self.answer_entries = []
 
         self.build_ui()
         self.show_current_chapter()
@@ -56,11 +65,19 @@ class TutorApp(tk.Tk):
         self.chapter_title = ttk.Label(main_panel, text="", font=("Segoe UI", 12, "bold"))
         self.chapter_title.grid(row=0, column=0, sticky="w", padx=10, pady=(8, 6))
 
-        self.chapter_overview = tk.Text(main_panel, wrap="word", height=16, state="disabled")
+        self.chapter_overview = tk.Text(main_panel, wrap="word", height=14, state="disabled")
         self.chapter_overview.grid(row=1, column=0, sticky="nsew", padx=10, pady=(0, 10))
 
         self.exercise_list = tk.Listbox(main_panel, height=8)
         self.exercise_list.grid(row=2, column=0, sticky="nsew", padx=10, pady=(0, 10))
+
+        checkpoint_frame = ttk.LabelFrame(main_panel, text="Checkpoint")
+        checkpoint_frame.grid(row=3, column=0, sticky="nsew", padx=10, pady=(0, 10))
+        checkpoint_frame.columnconfigure(0, weight=1)
+        self.checkpoint_questions = ttk.Frame(checkpoint_frame)
+        self.checkpoint_questions.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
+
+        ttk.Button(main_panel, text="Submit checkpoint", command=self.submit_checkpoint).grid(row=4, column=0, sticky="ew", padx=10, pady=(0, 10))
 
         nav = ttk.Frame(root)
         nav.grid(row=2, column=0, columnspan=2, sticky="ew", pady=(4, 0))
@@ -77,9 +94,16 @@ class TutorApp(tk.Tk):
 
     def refresh_status(self):
         status = get_provider_status()
+        progress_summary = self.progress.get("completed_chapters", [])
+        checkpoint_summary = self.progress.get("passed_checkpoints", [])
+        summary = (
+            f"{status}\n\n"
+            f"Completed chapters: {progress_summary}\n"
+            f"Passed checkpoints: {checkpoint_summary}"
+        )
         self.status_text.configure(state="normal")
         self.status_text.delete("1.0", tk.END)
-        self.status_text.insert("1.0", status)
+        self.status_text.insert("1.0", summary)
         self.status_text.configure(state="disabled")
 
     def use_selected_model(self):
@@ -109,6 +133,51 @@ class TutorApp(tk.Tk):
         self.exercise_list.delete(0, tk.END)
         for idx, exercise in enumerate(chapter.get("exercises", []), start=1):
             self.exercise_list.insert(tk.END, f"{idx}. {exercise}")
+
+        self.render_checkpoint_questions()
+
+    def render_checkpoint_questions(self):
+        for widget in self.checkpoint_questions.winfo_children():
+            widget.destroy()
+        self.answer_entries = []
+
+        checkpoint = get_checkpoint_for_chapter(self.current_chapter_id)
+        if checkpoint is None:
+            label = ttk.Label(self.checkpoint_questions, text="No checkpoint available for this chapter yet.")
+            label.grid(row=0, column=0, sticky="w")
+            return
+
+        for idx, question in enumerate(checkpoint.get("questions", []), start=1):
+            prompt = ttk.Label(self.checkpoint_questions, text=f"{idx}. {question.get('prompt', '')}")
+            prompt.grid(row=idx * 2 - 2, column=0, sticky="w", padx=10, pady=(8, 2))
+            entry = ttk.Entry(self.checkpoint_questions, width=60)
+            entry.grid(row=idx * 2 - 1, column=0, sticky="ew", padx=10, pady=(0, 8))
+            self.answer_entries.append((str(question.get("id")), entry))
+
+    def submit_checkpoint(self):
+        checkpoint = get_checkpoint_for_chapter(self.current_chapter_id)
+        if checkpoint is None:
+            messagebox.showinfo("Checkpoint", "There is no checkpoint configured for this chapter.")
+            return
+
+        answers = {question_id: text_entry.get() for question_id, text_entry in self.answer_entries}
+        correct, total = validate_checkpoint(checkpoint, answers)
+        passing_score = checkpoint.get("passing_score", 0)
+        passed = correct >= passing_score
+
+        if passed:
+            self.progress = mark_chapter_complete(self.current_chapter_id)
+            self.progress = mark_checkpoint_passed(checkpoint.get("id"))
+            self.refresh_status()
+            messagebox.showinfo(
+                "Checkpoint result",
+                f"You passed this checkpoint: {correct}/{total} correct.\nChapter {self.current_chapter_id} marked complete.",
+            )
+        else:
+            messagebox.showinfo(
+                "Checkpoint result",
+                f"You scored {correct}/{total}.\nYou need at least {passing_score} correct to pass. Try again.",
+            )
 
     def previous_chapter(self):
         if not self.chapters:
