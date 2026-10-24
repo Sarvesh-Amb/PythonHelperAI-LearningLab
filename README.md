@@ -7,7 +7,6 @@ This project is designed for absolute beginners. It teaches students by guiding 
 
 The system supports:
 - local Ollama models for low-end machines
-- Azure OpenAI for stronger demo environments
 - chapter-based learning
 - milestone tests after chapters 1, 3, 5, 7, and a final test in chapter 10
 - beginner-focused guidance inspired by the CS50 Duck teaching style
@@ -21,15 +20,11 @@ Students should learn by doing:
 - retry until they understand the idea
 - complete chapter tests at milestone points
 
-## Supported modes
+## Supported mode
 ### Local mode
 - runs with Ollama
 - good for testing on weak machines
 - default low-end models include gemma3:1b and gemma3:2b
-
-### Cloud mode
-- Azure OpenAI fallback for better demo quality
-- best when the student environment supports a strong model
 
 ## Learn by progression
 The curriculum is structured as a 10-chapter path:
@@ -61,13 +56,7 @@ python app.py
 ollama pull gemma3:1b
 ```
 
-### Azure setup
-Set the environment variables before using cloud mode:
-```bash
-export AZURE_OPENAI_API_KEY="..."
-export AZURE_OPENAI_ENDPOINT="https://<resource>.openai.azure.com/"
-export AZURE_OPENAI_DEPLOYMENT="gpt-4o-mini"
-```
-
 ## Important note
-This project is still being built in phases. The current repo contains the beginning of the teaching app, its chapter structure, and the tutor infrastructure needed for future checkpoint and DSA progression.
+This project is still being built in phases. The current repo contains the beginning of the teaching app, its chapter structure, and the tutor infrastructure needed for future checkpoint and DSA practice work.
+
+The main branch is intentionally kept local-only. Azure-related experiments are kept on a separate branch for exploration.
