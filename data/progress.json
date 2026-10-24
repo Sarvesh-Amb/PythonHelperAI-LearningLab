@@ -1,0 +1,47 @@
+import json
+from pathlib import Path
+
+
+def checkpoints_path():
+    return Path(__file__).resolve().parent / "data" / "checkpoints"
+
+
+def load_checkpoints():
+    base = checkpoints_path()
+    if not base.exists():
+        return []
+
+    checkpoints = []
+    for file_path in sorted(base.glob("*.json")):
+        try:
+            with file_path.open("r", encoding="utf-8") as f:
+                data = json.load(f)
+            if isinstance(data, dict):
+                checkpoints.append(data)
+        except (json.JSONDecodeError, OSError):
+            continue
+    return checkpoints
+
+
+def get_checkpoint_for_chapter(chapter_id):
+    for checkpoint in load_checkpoints():
+        if checkpoint.get("chapter_id") == chapter_id:
+            return checkpoint
+    return None
+
+
+def validate_checkpoint(checkpoint, answers):
+    if checkpoint is None:
+        return 0, 0
+
+    total_questions = len(checkpoint.get("questions", []))
+    correct = 0
+
+    for question in checkpoint.get("questions", []):
+        qid = str(question.get("id"))
+        expected = str(question.get("answer", "")).strip().lower()
+        given = str(answers.get(qid, "")).strip().lower()
+        if given == expected:
+            correct += 1
+
+    return correct, total_questions

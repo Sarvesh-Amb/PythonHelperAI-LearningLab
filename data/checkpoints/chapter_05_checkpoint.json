@@ -1,0 +1,23 @@
+{
+  "id": 3,
+  "chapter_id": 3,
+  "title": "Checkpoint: Conditionals",
+  "questions": [
+    {
+      "id": 1,
+      "prompt": "Which keyword starts a conditional block in Python?",
+      "answer": "if"
+    },
+    {
+      "id": 2,
+      "prompt": "What does else do in an if statement?",
+      "answer": "it runs when the condition is false"
+    },
+    {
+      "id": 3,
+      "prompt": "What is the comparison operator for equality?",
+      "answer": "=="
+    }
+  ],
+  "passing_score": 2
+}

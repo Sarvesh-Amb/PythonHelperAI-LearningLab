@@ -1,0 +1,23 @@
+{
+  "id": 10,
+  "chapter_id": 10,
+  "title": "Final Challenge",
+  "questions": [
+    {
+      "id": 1,
+      "prompt": "What is the main purpose of a function?",
+      "answer": "to reuse code"
+    },
+    {
+      "id": 2,
+      "prompt": "What is a list used for?",
+      "answer": "to store ordered values"
+    },
+    {
+      "id": 3,
+      "prompt": "What does it mean to think algorithmically?",
+      "answer": "to break a problem into steps"
+    }
+  ],
+  "passing_score": 2
+}

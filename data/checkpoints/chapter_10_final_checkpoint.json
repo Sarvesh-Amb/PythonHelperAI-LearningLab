@@ -1,0 +1,23 @@
+{
+  "id": 7,
+  "chapter_id": 7,
+  "title": "Checkpoint: Dictionaries and Sets",
+  "questions": [
+    {
+      "id": 1,
+      "prompt": "What data structure stores key-value pairs?",
+      "answer": "dictionary"
+    },
+    {
+      "id": 2,
+      "prompt": "What Python data structure stores unique values only?",
+      "answer": "set"
+    },
+    {
+      "id": 3,
+      "prompt": "How do you check if a value exists in a set?",
+      "answer": "in"
+    }
+  ],
+  "passing_score": 2
+}

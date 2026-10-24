@@ -1,0 +1,23 @@
+{
+  "id": 1,
+  "chapter_id": 1,
+  "title": "Checkpoint: Python Basics",
+  "questions": [
+    {
+      "id": 1,
+      "prompt": "What symbol is used to assign a value to a variable?",
+      "answer": "="
+    },
+    {
+      "id": 2,
+      "prompt": "Which data type stores whole numbers?",
+      "answer": "int"
+    },
+    {
+      "id": 3,
+      "prompt": "What function prints text to the screen?",
+      "answer": "print"
+    }
+  ],
+  "passing_score": 2
+}

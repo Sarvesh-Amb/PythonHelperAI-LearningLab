@@ -1,0 +1,23 @@
+{
+  "id": 5,
+  "chapter_id": 5,
+  "title": "Checkpoint: Functions",
+  "questions": [
+    {
+      "id": 1,
+      "prompt": "Which keyword defines a function in Python?",
+      "answer": "def"
+    },
+    {
+      "id": 2,
+      "prompt": "What does a function return when you use return?",
+      "answer": "a value"
+    },
+    {
+      "id": 3,
+      "prompt": "What are values passed into a function called?",
+      "answer": "parameters"
+    }
+  ],
+  "passing_score": 2
+}
