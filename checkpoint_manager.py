@@ -44,19 +44,25 @@ def save_progress(progress_data, path=None):
         json.dump(progress_data, f, indent=2)
 
 
-def mark_chapter_complete(progress_data, chapter_id):
+def mark_chapter_complete(chapter_id, progress_data=None):
+    if progress_data is None:
+        progress_data = load_progress()
     chapter_id = int(chapter_id)
     completed = set(progress_data.get("completed_chapters", []))
     completed.add(chapter_id)
     progress_data["completed_chapters"] = sorted(completed)
+    save_progress(progress_data)
     return progress_data
 
 
-def mark_checkpoint_passed(progress_data, checkpoint_id):
+def mark_checkpoint_passed(checkpoint_id, progress_data=None):
+    if progress_data is None:
+        progress_data = load_progress()
     checkpoint_id = int(checkpoint_id)
     passed = set(progress_data.get("passed_checkpoints", []))
     passed.add(checkpoint_id)
     progress_data["passed_checkpoints"] = sorted(passed)
+    save_progress(progress_data)
     return progress_data
 
 
@@ -67,3 +73,41 @@ def get_progress_summary(progress_data):
         "completed_chapters": sorted(set(int(item) for item in completed)),
         "passed_checkpoints": sorted(set(int(item) for item in passed)),
     }
+
+
+def load_checkpoints():
+    checkpoints_dir = Path(__file__).resolve().parent / "data" / "checkpoints"
+    if not checkpoints_dir.exists():
+        return []
+
+    checkpoints = []
+    for checkpoint_file in sorted(checkpoints_dir.glob("*.json")):
+        try:
+            with checkpoint_file.open("r", encoding="utf-8") as f:
+                checkpoint = json.load(f)
+            checkpoints.append(checkpoint)
+        except json.JSONDecodeError:
+            continue
+    return checkpoints
+
+
+def get_checkpoint_for_chapter(chapter_id):
+    for checkpoint in load_checkpoints():
+        if int(checkpoint.get("chapter_id")) == int(chapter_id):
+            return checkpoint
+    return None
+
+
+def validate_checkpoint(checkpoint, answers):
+    if checkpoint is None:
+        return 0, 0
+
+    correct = 0
+    total = len(checkpoint.get("questions", []))
+    for question in checkpoint.get("questions", []):
+        qid = str(question.get("id"))
+        expected = str(question.get("answer", "")).strip().lower()
+        given = str(answers.get(qid, "")).strip().lower()
+        if given == expected:
+            correct += 1
+    return correct, total
