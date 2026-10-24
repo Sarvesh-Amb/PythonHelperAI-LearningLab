@@ -1,0 +1,10 @@
+{
+  "id": 8,
+  "title": "Intermediate Python",
+  "overview": "This chapter strengthens the foundations by teaching more readable and reusable Python patterns. You will work with loops, functions, and small problem-solving patterns that appear often in coding interviews and beginner projects.\n\nLearning goals:\n- nested loops\n- modular function design\n- list comprehensions\n- small debugging habits\n\nWhy it matters:\nMost beginner problems become easier when you think in small reusable chunks.\n\nExample:\nnums = [1, 2, 3, 4]\nsquares = [n * n for n in nums]\nprint(squares)\n\nThink about this:\nHow can you simplify repeated code using a function or a loop?",
+  "exercises": [
+    "Write a list comprehension to create squares from 1 to 10.",
+    "Use a nested loop to print a 3x3 pattern.",
+    "Write a function that returns the sum of numbers in a list."
+  ]
+}
