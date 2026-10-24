@@ -1,29 +1,73 @@
-import os
+# PythonHelperAI Learning Lab
 
-from azure_ai import azure_config_present, call_azure_ai
-from local_ai import call_local_ai
-from model_manager import choose_model
+A beginner-to-intermediate Python and data structures tutor built with Tkinter.
 
+## Project goal
+This project is designed for absolute beginners. It teaches students by guiding them with questions, short explanations, and hints instead of giving away full solutions.
 
-def build_student_prompt(chapter_name: str, exercise_text: str, student_code: str = "") -> str:
-    code_block = student_code.strip() if student_code.strip() else "(No code submitted yet)"
-    return (
-        f"Chapter: {chapter_name}\n"
-        f"Exercise: {exercise_text}\n\n"
-        f"Student code:\n{code_block}\n\n"
-        "Give a small hint, ask one guiding question, and never give the full final solution. "
-        "Keep the response beginner-friendly and short."
-    )
+The system supports:
+- local Ollama models for low-end machines
+- Azure OpenAI for stronger demo environments
+- chapter-based learning
+- milestone tests after chapters 1, 3, 5, 7, and a final test in chapter 10
+- beginner-focused guidance inspired by the CS50 Duck teaching style
 
+## Core idea
+Students should learn by doing:
+- read a short chapter overview
+- explore the concept with examples
+- solve a few exercises
+- ask for a hint from the AI tutor
+- retry until they understand the idea
+- complete chapter tests at milestone points
 
-def generate_hint(provider: str, model: str, chapter_name: str, exercise_text: str, student_code: str = "") -> str:
-    provider_name = provider or "auto"
-    selected_model = choose_model(provider_name, model)
+## Supported modes
+### Local mode
+- runs with Ollama
+- good for testing on weak machines
+- default low-end models include gemma3:1b and gemma3:2b
 
-    prompt = build_student_prompt(chapter_name, exercise_text, student_code)
+### Cloud mode
+- Azure OpenAI fallback for better demo quality
+- best when the student environment supports a strong model
 
-    if provider_name == "cloud" or (provider_name == "auto" and azure_config_present()):
-        deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT")
-        return call_azure_ai(prompt, deployment=deployment)
+## Learn by progression
+The curriculum is structured as a 10-chapter path:
+1. Python basics
+2. Operators and expressions
+3. Conditionals
+4. Loops
+5. Functions
+6. Strings and lists
+7. Dictionaries and sets
+8. Intermediate Python
+9. Intro to DSA
+10. DSA practice and final test
 
-    return call_local_ai(prompt, model=selected_model)
+## Setup
+
+### Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### Run the app
+```bash
+python app.py
+```
+
+### Local model example
+```bash
+ollama pull gemma3:1b
+```
+
+### Azure setup
+Set the environment variables before using cloud mode:
+```bash
+export AZURE_OPENAI_API_KEY="..."
+export AZURE_OPENAI_ENDPOINT="https://<resource>.openai.azure.com/"
+export AZURE_OPENAI_DEPLOYMENT="gpt-4o-mini"
+```
+
+## Important note
+This project is still being built in phases. The current repo contains the beginning of the teaching app, its chapter structure, and the tutor infrastructure needed for future checkpoint and DSA progression.
