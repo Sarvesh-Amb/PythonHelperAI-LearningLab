@@ -1,0 +1,10 @@
+{
+  "id": 10,
+  "title": "DSA Practice and Final Challenge",
+  "overview": "This final chapter brings together everything you have learned. You will practice solving small problems with lists, loops, functions, and simple algorithmic thinking.\n\nLearning goals:\n- problem decomposition\n- searching\n- reversing\n- counting\n- algorithmic debugging\n\nWhy it matters:\nReal coding interviews and coding tasks are not just about syntax. They are about thinking clearly and choosing the right approach.\n\nExample:\n# Find the total of a list\nnums = [3, 5, 7]\nprint(sum(nums))\n\nThink about this:\nHow do you break a big problem into smaller steps?",
+  "exercises": [
+    "Write a function to reverse a list.",
+    "Find the total of all numbers in a list.",
+    "Write a function that counts how many times a target appears in a list."
+  ]
+}
