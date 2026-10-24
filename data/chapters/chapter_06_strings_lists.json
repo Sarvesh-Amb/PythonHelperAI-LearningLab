@@ -1,0 +1,10 @@
+{
+  "id": 6,
+  "title": "Strings and Lists",
+  "overview": "Strings and lists are two of the most important data structures in Python. Strings hold text, while lists hold ordered collections of values.\n\nLearning goals:\n- strings\n- indexing\n- slicing\n- lists\n- list methods\n\nWhy it matters:\nMost programs work with text and collections of values. Lists and strings are everyday tools for solving coding problems.\n\nExample:\nword = \"python\"\nprint(word[0])\nprint(word[0:3])\nitems = [1, 2, 3]\nitems.append(4)\nprint(items)\n\nThink about this:\nHow is a list different from a string?",
+  "exercises": [
+    "Print the first and last letter of a word.",
+    "Reverse a string using slicing.",
+    "Create a list of three fruits and print the second item."
+  ]
+}
