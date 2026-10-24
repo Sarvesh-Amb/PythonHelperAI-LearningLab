@@ -1,0 +1,10 @@
+{
+  "id": 2,
+  "title": "Operators and Expressions",
+  "overview": "This chapter introduces arithmetic and comparison operators. You will learn how to add, subtract, multiply, divide, compare values, and build simple logical expressions.\n\nLearning goals:\n- +, -, *, /\n- %, <, >, ==\n- booleans\n\nWhy it matters:\nPrograms are built from expressions and decisions. Operators help us model real-world rules.\n\nExample:\nprice = 50\ndiscount = 10\nfinal_price = price - discount\nprint(final_price)\n\nThink about this:\nHow do we compare numbers in Python?",
+  "exercises": [
+    "Print the sum of 12 and 6.",
+    "Print the result of 12 divided by 6.",
+    "Check whether two numbers are equal and print the result."
+  ]
+}

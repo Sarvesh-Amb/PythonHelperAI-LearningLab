@@ -1,0 +1,10 @@
+{
+  "id": 1,
+  "title": "Python Basics",
+  "overview": "Welcome to Python! In this chapter you will learn how to print output, store values in variables, understand strings and numbers, and ask users for input.\n\nLearning goals:\n- print()\n- variables\n- input()\n- basic data types\n\nWhy it matters:\nEvery program begins by storing information and showing output. These ideas are the foundation of all coding.\n\nKey idea:\nA variable is a named box where we keep information.\n\nExample:\nname = \"Aarav\"\nage = 15\nprint(\"Hi\", name)\nprint(age)\n\nThink about this before you move on:\nWhat is the difference between a string and a number?",
+  "exercises": [
+    "Print your name and age.",
+    "Store your age in a variable and print it.",
+    "Ask the user for their name and greet them."
+  ]
+}

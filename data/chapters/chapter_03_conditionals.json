@@ -1,0 +1,10 @@
+{
+  "id": 3,
+  "title": "Conditionals",
+  "overview": "In this chapter, you will learn how to make decisions in Python with if, elif, and else. This is the first step toward writing logic that reacts to different situations.\n\nLearning goals:\n- if\n- else\n- elif\n- comparison logic\n\nWhy it matters:\nMany real programs ask: \"What should I do if this condition is true?\"\n\nExample:\nmarks = 75\nif marks >= 60:\n    print(\"Pass\")\nelse:\n    print(\"Fail\")\n\nThink about this:\nWhat is the difference between if and else?",
+  "exercises": [
+    "Check whether a number is even or odd.",
+    "Print Pass or Fail based on a score.",
+    "Use if, elif, and else to classify a number as negative, zero, or positive."
+  ]
+}
